@@ -20,6 +20,9 @@ const AppHeader = () => {
     <Menu>
       <Menu.Item key="0">Profile</Menu.Item>
       <Menu.Item key="1">Settings</Menu.Item>
+      <Menu.Item key="1">
+        <Link to="/my-course"> My Course</Link>
+      </Menu.Item>
       <Menu.Divider />
       <Menu.Item
         onClick={handleLogOut}
@@ -62,8 +65,12 @@ const AppHeader = () => {
             >
               Teaching
             </Link>
-            <Button type="primary">Login</Button>
-            <Button type="default">Sign Up</Button>
+            <Button type="primary">
+              <Link to="/join">Login</Link>
+            </Button>
+            <Button type="default">
+              <Link to="/join-new">Sign Up</Link>
+            </Button>
           </React.Fragment>
         )}
 

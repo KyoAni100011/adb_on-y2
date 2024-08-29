@@ -11,13 +11,14 @@ import {
 } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { readItem, updateItem } from "../utils/localStorage";
-import { Link } from "react-router-dom";
-import { removeCartItem } from "../services/course.service";
+import { Link, useNavigate } from "react-router-dom";
+import { removeCartItem, createOrder } from "../services/course.service";
 
 const { Title, Text } = Typography;
 
 const ShoppingCart = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = readItem("User");
@@ -62,6 +63,33 @@ const ShoppingCart = () => {
       });
     } catch (error) {
       console.error("Error occurred during removing cart item:", error);
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const user = readItem("User");
+
+      if (!user || !user.Cart) {
+        throw new Error("User or Cart not found.");
+      }
+
+      const cartId = user.Cart.CartId;
+      const userId = user.UserId;
+
+      const orderDetails = await createOrder(userId, cartId);
+      notification.success({
+        message: "Order Created",
+        description: `Your order has been successfully created.`,
+      });
+
+      navigate("/checkout", { state: { orderDetails } });
+    } catch (error) {
+      console.error("Error occurred during checkout:", error);
+      notification.error({
+        message: "Checkout Failed",
+        description: error.message,
+      });
     }
   };
 
@@ -215,17 +243,9 @@ const ShoppingCart = () => {
                 fontWeight: "bold",
                 fontSize: "16px",
               }}
+              onClick={handleCheckout} // Gọi hàm handleCheckout khi nhấn nút
             >
-              <Link
-                to="/checkout"
-                style={{
-                  textDecoration: "none",
-                  width: "100%",
-                  display: "block",
-                }}
-              >
-                Checkout
-              </Link>
+              Checkout
             </Button>
             <Divider style={{ margin: "15px 0" }} />
             <Title level={5} style={{ color: "#333", marginBottom: "10px" }}>

@@ -23,8 +23,8 @@ import {
   BankOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { registerLecturer } from "../services/auth.service";
-import { createItem } from "../utils/localStorage";
+import { registerLecturer } from "../../services/auth.service";
+import { createItem } from "../../utils/localStorage";
 
 const { Option } = Select;
 
@@ -32,10 +32,8 @@ const FormTeaching = () => {
   const onFinish = async (values) => {
     await registerLecturer(values)
       .then((res) => {
-        console.log("sdsdsd");
         createItem("User", res.User);
-        console.log("sdsdsdádấd");
-        window.location.href = "/";
+        window.location.href = "/lecturer";
       })
       .catch((err) => {
         console.log(err);

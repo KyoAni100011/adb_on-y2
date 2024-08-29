@@ -10,9 +10,12 @@ import {
   Col,
   Divider,
   Flex,
+  message,
 } from "antd";
 import { CreditCardOutlined, PayCircleOutlined } from "@ant-design/icons";
-import { readItem } from "../utils/localStorage";
+import { readItem, updateItem } from "../utils/localStorage";
+import { processPayment } from "../services/course.service";
+import { useNavigate } from "react-router";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -22,6 +25,8 @@ const Checkout = () => {
   const [originalPrice, setOriginalPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("paypal");
+  const naviagte = useNavigate();
 
   useEffect(() => {
     // Simulate fetching cart data from storage or API
@@ -36,8 +41,6 @@ const Checkout = () => {
         (acc, item) => acc + item.Price,
         0
       );
-
-      console.log(originalPrice);
 
       const discount = cart.CartItems.reduce(
         (acc, item) =>
@@ -57,6 +60,30 @@ const Checkout = () => {
     fetchCartData();
   }, []);
 
+  const handlePayment = async () => {
+    try {
+      const user = readItem("User");
+      if (!user || !user.UserId) {
+        message.error("User information is missing.");
+        return;
+      }
+
+      const response = await processPayment(user.UserId, paymentMethod);
+
+      message.success(
+        `Payment successful! Order Number: ${response.Payment.OrderId}`
+      );
+
+      user.Cart.CartItems = [];
+      updateItem("User", user);
+
+      naviagte("/payment", { state: response.Payment });
+      // Additional processing after successful payment if needed
+    } catch (error) {
+      message.error(`Payment failed: ${error.message}`);
+    }
+  };
+
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px" }}>
       <Row gutter={24}>
@@ -73,7 +100,10 @@ const Checkout = () => {
               </Form.Item>
 
               <Form.Item label="Payment method">
-                <Radio.Group defaultValue="paypal">
+                <Radio.Group
+                  defaultValue="paypal"
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                >
                   <Card size="small" style={{ marginBottom: 16 }}>
                     <Radio value="paypal">
                       <PayCircleOutlined /> PayPal
@@ -125,7 +155,7 @@ const Checkout = () => {
                 ₫{total?.toLocaleString()}
               </Title>
             </Flex>
-            <Button type="primary" block>
+            <Button type="primary" block onClick={handlePayment}>
               Proceed
             </Button>
             <Text type="secondary" style={{ display: "block", marginTop: 16 }}>

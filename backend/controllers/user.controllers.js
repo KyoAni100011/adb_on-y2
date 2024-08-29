@@ -62,7 +62,7 @@ exports.registerLecturer = async (req, res) => {
 
     const resParse = parseNestedObject(result[0]);
 
-    return res.status(201).json(resParse);
+    return res.status(201).json({ User: resParse });
   } catch (error) {
     console.error("Error registering lecturer:", error);
     return res.status(500).json({

@@ -3,13 +3,21 @@ import Lecturer from "../layouts/Lecturer";
 import Main from "../layouts/Main";
 import Checkout from "../views/CheckOut";
 import CourseDetail from "../views/CourseDetail";
-import FormTeaching from "../views/FormTeaching";
+import FormTeaching from "../views/Lecturer/FormTeaching";
 import LecturerProfileView from "../views/LecturerProfile";
 import LoginForm from "../views/LoginForm";
 import MyCourses from "../views/MyCourse";
-import AddCourse from "../views/NewCourse";
+import AddCourse from "../views/Lecturer/NewCourse";
 import ShoppingCart from "../views/ShoppingCart";
 import RegistrationForm from "../views/SignUpForm";
+import LecturerCourses from "../views/Lecturer/ListCourses";
+import CourseDetailPage from "../views/Lecturer/CourseView";
+import LessonDetailPage from "../views/Lecturer/LessonDetail";
+import AssignmentDetailPage from "../views/Lecturer/AssignmentDetail";
+import PaymentSuccess from "../views/Payment";
+import CourseDetailPageForStudent from "../views/CourseView";
+import LessonDetailPageForStudent from "../views/Lecturer/LessonDetail";
+import AssignmentDetailPageForStudent from "../views/AssignmentDetail";
 
 const pagesData = [
   {
@@ -57,6 +65,26 @@ const pagesData = [
         element: <MyCourses />,
         title: "My Courses",
       },
+      {
+        path: "/my-course/:id",
+        element: <CourseDetailPageForStudent />,
+        title: "My Courses Student",
+      },
+      {
+        path: "lesson/:id",
+        element: <LessonDetailPageForStudent />,
+        title: "Lesson Detail",
+      },
+      {
+        path: "assignment/:id",
+        element: <AssignmentDetailPageForStudent />,
+        title: "Assignment Detail",
+      },
+      {
+        path: "/payment",
+        element: <PaymentSuccess />,
+        title: "Payment Success",
+      },
     ],
   },
   {
@@ -73,6 +101,26 @@ const pagesData = [
         path: "new-course",
         element: <AddCourse />,
         title: "Add Course",
+      },
+      {
+        path: "list-course",
+        element: <LecturerCourses />,
+        title: "Lecturer List Course",
+      },
+      {
+        path: "course-detail/:id",
+        element: <CourseDetailPage />,
+        title: "Course Detail",
+      },
+      {
+        path: "lesson/:id",
+        element: <LessonDetailPage />,
+        title: "Lesson Detail",
+      },
+      {
+        path: "assignment/:id",
+        element: <AssignmentDetailPage />,
+        title: "Assignment Detail",
       },
     ],
   },

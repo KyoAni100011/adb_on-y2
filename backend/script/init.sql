@@ -352,6 +352,7 @@ CREATE TABLE [Submission] (
     [SubmissionId] UNIQUEIDENTIFIER NOT NULL UNIQUE,
     [AssignmentId] UNIQUEIDENTIFIER,
     [StudentId] UNIQUEIDENTIFIER,
+    [Text] NVARCHAR(MAX),
     [Score] BIGINT,
 	[Feedback] NVARCHAR(2000),
     [Status] NVARCHAR(50) CHECK (Status IN ('Active', 'Inactive', 'Pending', 'Blocked')),

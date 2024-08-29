@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu, Button, Dropdown } from "antd";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
-import { deleteItem } from "../utils/localStorage";
+import { deleteItem } from "../../utils/localStorage";
 import { Link } from "react-router-dom";
 
 const { Header } = Layout;
@@ -58,6 +58,11 @@ const AppHeaderLecturer = () => {
         <Link to="/lecturer/new-course">
           <Button type="link" style={{ color: "#fff" }}>
             Add Course
+          </Button>
+        </Link>
+        <Link to="/lecturer/list-course">
+          <Button type="link" style={{ color: "#fff" }}>
+            Courses
           </Button>
         </Link>
       </div>
